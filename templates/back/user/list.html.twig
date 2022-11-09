@@ -1,0 +1,102 @@
+{% extends 'back/user/_base.html.twig' %}
+
+{% block title %}Utilisateurs{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid">
+    <h1 class="text-center">Liste des utilisateurs</h1>
+
+    <div class="row justify-content-around">
+        <section class="card col-5 border border-0">
+        <div class="card-body">
+            <h2 class="text-center">Les clients</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">#</th>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Prénom</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Téléphone</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for currentUser in users %}
+                    <tr>
+                        <td scope="row"><a href="{{ path('app_back_user_show', {'id': currentUser.id}) }}" class="btn btn-outline-primary btn-sm"><i class="bi bi-eye-fill"></i></a><a href="{{ path('app_back_user_orders', {'id': currentUser.id}) }}" class="btn btn-outline-success btn-sm"><i class="bi bi-cart-fill"></i></a></td>
+                        <td>{{ currentUser.id }}</td>
+                        <td>{{ currentUser.lastname }}</td>
+                        <td>{{ currentUser.firstname }}</td>
+                        <td>{{ currentUser.email }}</td>
+                        <td>{{ currentUser.phone }}</td>
+                        <td>
+                            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                            <a href="{{ path('app_back_user_edit', {'id': currentUser.id}) }}" class="btn btn-outline-warning btn-sm"><i class="bi bi-pencil-fill"></i></a>{% include 'back/user/_delete.html.twig' with {'delete': '', 'user': currentUser} %}
+                            {% endif %}    
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>    
+        </div>
+    </section>
+
+    <section class="card col-5 border border-0">
+        <div class="card-body">
+            <h2 class="text-center">Le staff</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">#</th>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Prénom</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Téléphone</th>
+                        <th scope="col">Rôle</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for currentUser in superAdmins %}
+                    <tr>
+                        <td scope="row"><a href="{{ path('app_back_user_show', {'id': currentUser.id}) }}" class="btn btn-outline-primary btn-sm"><i class="bi bi-eye-fill"></i></a></td>
+                        <td>{{ currentUser.id }}</td>
+                        <td>{{ currentUser.lastname }}</td>
+                        <td>{{ currentUser.firstname }}</td>
+                        <td>{{ currentUser.email }}</td>
+                        <td>{{ currentUser.phone }}</td>
+                        <td>{{ currentUser.roleName }}</td>
+                        <td>
+                            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                            <a href="{{ path('app_back_user_edit', {'id': currentUser.id}) }}" class="btn btn-outline-warning btn-sm"><i class="bi bi-pencil-fill"></i></a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                {% for currentUser in admins %}
+                    <tr>
+                        <td scope="row"><a href="{{ path('app_back_user_show', {'id': currentUser.id}) }}" class="btn btn-outline-primary btn-sm"><i class="bi bi-eye-fill"></i></a></td>
+                        <td>{{ currentUser.id }}</td>
+                        <td>{{ currentUser.lastname }}</td>
+                        <td>{{ currentUser.firstname }}</td>
+                        <td>{{ currentUser.email }}</td>
+                        <td>{{ currentUser.phone }}</td>
+                        <td>{{ currentUser.roleName }}</td>
+                        <td>
+                            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                            <a href="{{ path('app_back_user_edit', {'id': currentUser.id}) }}" class="btn btn-outline-warning btn-sm"><i class="bi bi-pencil-fill"></i></a>{% include 'back/user/_delete.html.twig' with {'delete': '', 'user': currentUser} %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>    
+        </div>
+    </section>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends 'back/depot/_base.html.twig' %}
+
+{% block title %}Dépôts{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid">
+ 
+    <h1 class="text-center">Liste de dépôts</h1>
+
+    <div class="d-flex justify-content-end pt-3 pb-2 mb-3">
+        <a href="{{ path('app_back_depot_orders_pdf') }}" class="btn btn-outline-primary"><i class="bi bi-filetype-pdf"></i> Imprimer les commandes</a>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+            {% if depots is empty %}
+                <td colspan="8">Aucun dépôt n'a été trouvé</td>
+            {% else %}
+                <th scope="col">#</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Téléphone</th>
+                <th scope="col">Adresse</th>
+                <th scope="col">Disponible</th>
+                <th scope="col"></th>
+               
+            </tr>
+        </thead>
+        <tbody>
+        {% for depot in depots %}
+            <tr>
+               <td>{{ depot.id }}</td>
+                <td>{{ depot.name }}</td>
+                <td>{{ depot.phone }}</td>
+                <td>{{ depot.address }}</td>
+                <td>
+                    {% if is_granted('ROLE_SUPER_ADMIN')%}
+                        <input type="checkbox" class="form-check-input" id="{{ depot.id }}" name="available"{% if depot.isAvailable == true %} checked{% endif %}>
+                    {% else %}
+                        {% if depot.isAvailable == true %}
+                            <i class="bi bi-check-square text-success"></i>
+                        {% else %}
+                            <i class="bi bi-x-square text-danger"></i>
+                        {% endif %}
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ path('app_back_depot_show', {'id': depot.id}) }}" class = "btn btn-outline-primary btn-sm"><i class="bi bi-eye-fill"> Consulter</i></a>
+                    {% if is_granted('ROLE_SUPER_ADMIN') %}
+                    <a href="{{ path('app_back_depot_edit', {'id': depot.id}) }}" class = "btn btn-outline-warning btn-sm"><i class="bi bi-pencil-fill"> Modifier</i></a>
+                    {% endif %}
+                </td>
+                <td> 
+                    <a href="{{ path('app_back_depot_detail.pdf', {'id': depot.id}) }}" class="btn btn-outline-primary btn-sm"><i class="bi bi-filetype-pdf"></i></a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        {% endif %}
+    </table>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {% if is_granted('ROLE_SUPER_ADMIN') %}
+        <script src="{{ asset('scripts/depotIndex.js')}}"></script>
+    {% endif %}
+{% endblock %}
+

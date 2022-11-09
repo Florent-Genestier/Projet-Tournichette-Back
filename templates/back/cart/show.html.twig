@@ -1,0 +1,36 @@
+{% extends 'back/cart/_base.html.twig' %}
+
+{% block title %}Détail panier{% endblock %}
+
+{% block body %}
+<section class="container-fluid">
+    <h1 class="text-center">Détail du panier : {{ cart.name }}</h1>
+
+    <div class="row justify-content-around mt-2">
+        <article class="card col-4">
+            <div class="card-body">
+                <h3 class="card-title">Infos panier</h3>
+                <ul>
+                    <li class="list-group-item"><strong class="fw-semibold">Nom : </strong>{{ cart.name }}</li>
+                    <li class="list-group-item"><strong class="fw-semibold">Prix : </strong>{{ cart.price }} €</li>
+                </ul>
+            </div>
+        </article>
+
+        <article class="card col-6">
+            {% if cart.cartProducts is not empty %}
+            <div class="card-body">
+                <h3 class="card-title">Liste des produits</h3>
+                {% for currentProduct in cart.cartProducts %}
+                    <ul>
+                        <li class="list-group-item"><strong class="fw-semibold">Produit : </strong>{{ currentProduct.product.name }}</li>
+                        <li class="list-group-item"><strong class="fw-semibold">Quantité : </strong>{{ currentProduct.quantity }} {{ currentProduct.product.unity }}</li>
+                    </ul>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </article>
+    </div>
+</div>
+</section>
+{% endblock %}

@@ -1,0 +1,8 @@
+{% extends 'base-back.html.twig' %}
+
+
+{% block subnavUser %}
+	<li>
+		<a href="{{ path('app_back_user_orders', {'id': user.id}) }}" class="nav-link px-0 {{ "app_back_user_orders" in app.request.attributes.get('_route') ? "text-secondary" : "" }}"><i class="bi bi-list-ul"></i> <span class="d-none d-sm-inline">Liste des commandes de {{ user.firstname }} {{ user.lastname }}</span></a>
+	</li>
+{% endblock %}

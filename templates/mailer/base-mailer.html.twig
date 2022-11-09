@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>La Tournichette
+			{% block title %}{% endblock %}
+		</title>
+		{% block stylesheets %}
+		{% endblock %}
+		{% block style %}{% endblock %}
+	</head>
+	<body class="p-3">
+		
+		{% block body %}{% endblock %}
+	</body>
+	<footer>
+		{% block footer %}
+		<hr>
+		<p class="fst-italic">Cet email a été généré automatiquement mais vous avez la possibilité d'y répondre. Le webmaster du site en prendra connaissance dès que possible.</p>
+		{% endblock %}
+	</footer>
+</html>
